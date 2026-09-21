@@ -18,17 +18,25 @@ h1 {
 }
 
 #app {
-  width: 1126px;
+  width: 100%;
   max-width: 100%;
-  margin: 0 auto;
   text-align: center;
-  min-height: 40svh;
+  min-height: 50svh;
   max-height: 50svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+form {
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 table {

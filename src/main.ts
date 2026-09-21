@@ -3,23 +3,31 @@ import type { Homerseklet } from './Homerseklet';
 
 const PETRIK_URL = "https://petrik-idojaras-default-rtdb.europe-west1.firebasedatabase.app/.json";
 
-function AddData() {
-  console.log("Not ready yet ❌")
+let dataList: Homerseklet[] = [];
+
+function AddData(e: SubmitEvent) {
+  console.log("Data added 👍");
+  e.preventDefault();
+
+  const documentForm = document.getElementById("documentForm") as HTMLFormElement;
+  const documentData = document.getElementById("form_temperature") as HTMLInputElement;
+
+  const formData: Homerseklet = {
+    day: new Date().toLocaleDateString('en-US', { weekday: 'long' }),
+    temperature: parseInt(documentData.value),
+  }
+
+  dataList.push(formData);
+  documentForm.reset();
+  LoadData();
 }
 
 async function LoadData() {
-  console.log("Not ready yet ❌")
-  const response = await fetch(PETRIK_URL)
-  if (!response.ok) {
-    return ("An error has occurred");
-  }
-
-  const data = await response.json() as Homerseklet[];
+  console.log("Data loaded 👍");
   const tableContent = document.getElementById("tableContent") as HTMLElement;
-  tableContent!.innerHTML = "";
+  tableContent.innerHTML = "";
 
-
-  for (const temp of data) {
+  for (const temp of dataList) {
     const tableRow = document.createElement("tr");
     tableContent.appendChild(tableRow);
 
@@ -41,9 +49,26 @@ async function LoadData() {
   }
 }
 
+async function GetData() {
+  const response = await fetch(PETRIK_URL)
+  if (!response.ok) {
+    return ("An error has occurred");
+  }
+
+  const data = await response.json() as Homerseklet[];
+  for (const temp of data) {
+    dataList.push(temp);
+  }
+
+  LoadData();
+}
+
 function Init() {
   console.log("Document is online 👍")
-  LoadData();
+  GetData();
+
+  const documentForm = document.getElementById("documentForm") as HTMLElement;
+  documentForm.addEventListener("submit", AddData);
 }
 
 document.addEventListener("DOMContentLoaded", Init);
