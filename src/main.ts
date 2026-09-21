@@ -28,7 +28,15 @@ async function LoadData() {
     tableRow.appendChild(cellDay);
 
     const cellTemp = document.createElement("td");
-    cellTemp.innerText = temp.temperature.toString();
+    cellTemp.innerText = `${temp.temperature.toString()}°C`;
+
+    if (temp.temperature >= 30) {
+      tableRow.classList.add("heat");
+    }
+    else if (temp.temperature < 10) {
+      tableRow.classList.add("cool");
+    }
+
     tableRow.appendChild(cellTemp);
   }
 }
